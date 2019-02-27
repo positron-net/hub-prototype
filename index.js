@@ -1,7 +1,7 @@
 const ws = require('ws')
 
 const PORT = 5112
-const map = new Map()
+const db = new Map()
 
 const wss = new ws.Server({ port: PORT })
 
@@ -13,14 +13,42 @@ wss.on('connection', ws => {
     }))
   }
 
+  const sendTo = (sock, message, content) => {
+    sock.send(JSON.stringify({
+      message: `RES_${message}`,
+      content: content
+    }))
+  }
+
   ws.on('message', msg => {
     msg = JSON.parse(msg)
 
+    console.log(msg)
+
     switch (msg.message) {
       case 'ADD_CLIENT':
-        map.set(msg.content, ws._socket.remoteAddress)
+        db.set(msg.content, {
+          ip: ws._socket.remoteAddress.replace('::ffff:', ''),
+          sock: ws,
+          uid: msg.content
+        })
+        break
       case 'GET_CLIENT':
-        send('GET_CLIENT', map.get(msg.content))
+        if (db.has(msg.content)) {
+          send('GET_CLIENT', {
+            ip: db.get(msg.content).ip,
+            uid: db.get(msg.content).uid
+          })
+        }
+        break
+      case 'SEND_FILE':
+        if (db.has(msg.content.uid)) {
+          sendTo(db.get(msg.content.uid).sock, 'RECEIVE_FILE', {
+            host: ws._socket.remoteAddress.replace('::ffff:', ''),
+            port: msg.content.port
+          })
+        }
+        break
       default:
         return 'nope'
     }
