@@ -1,7 +1,5 @@
 const ws = require('ws')
 
-const uidParser = require('./utils/uid')
-
 const PORT = 5112
 const map = new Map()
 
