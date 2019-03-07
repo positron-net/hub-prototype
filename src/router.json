@@ -1,0 +1,14 @@
+[
+  {
+    "request": "ADD_CLIENT",
+    "name": "addClient"
+  },
+  {
+    "request": "GET_CLIENT",
+    "name": "getClient"
+  },
+  {
+    "request": "SEND_FILE",
+    "name": "sendFile"
+  }
+]
