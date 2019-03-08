@@ -1,8 +1,8 @@
-module.exports = (ws, msg) => {
+module.exports = (res, msg) => {
   db.get(msg.content)
   .then(data => {
     console.log(data)
-    send('GET_CLIENT', {
+    res.send('GET_CLIENT', {
       ip: data.ip,
       uid: data.uid
     })

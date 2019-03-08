@@ -1,7 +1,7 @@
-module.exports = (ws, msg) => {
+module.exports = (res, msg) => {
   db.set(msg.content, {
-    ip: ws._socket.remoteAddress.replace('::ffff:', ''),
-    sock: ws,
+    ip: res.get()._socket.remoteAddress.replace('::ffff:', ''),
+    sock: res.get(),
     uid: msg.content
   })
 }
