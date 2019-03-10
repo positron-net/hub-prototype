@@ -1,4 +1,4 @@
-module.exports = (res, msg) => {
+module.exports = (msg, res, db) => {
   db.get(msg.content.uid)
   .then(data => {
     sendTo(data.sock, 'RECEIVE_FILE', {

@@ -1,25 +1,28 @@
-const redis = require("redis")
-const client = redis.createClient()
+const redis = require('ioredis');
+const client = new redis()
 
 const db = {
   get (key) {
-    return new Promise((resolve, reject) => {
-      client.get(key, (err, data) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(JSON.parse(data))
+    return new Promise(resolve => {
+      console.log(tempStorage)
+      for (i in tempStorage) {
+        if (tempStorage[i].key === key) {
+          resolve(tempStorage[i].value)
+          break
         }
-      })
+      }
     })
   },
 
   set (key, value) {
-    client.set(key, JSON.stringify(value), err => {
-      if (err) {
-        console.log(err)
-      }
+    tempStorage.push({
+      key: key,
+      value: value
     })
+  },
+
+  remove (key) {
+
   }
 }
 

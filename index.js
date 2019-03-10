@@ -1,26 +1,34 @@
-const ws = require('ws')
+const http = require('http')
+const sockjs = require('sockjs')
 const router = require('./src/router.js')
 
 const res = require('./src/modules/sockets.js')
-global.db = require('./src/modules/redis.js')
+const db = require('./src/modules/redis.js')
 
-const PORT = 5112
+global.tempStorage = []
 
-const wss = new ws.Server({ port: PORT })
+const echo = sockjs.createServer({ prefix:'/echo' })
+echo.on('connection', conn => {
+  
+  resp = new res(conn)
 
-wss.on('connection', ws => {
-  resp = new res(ws)
-
-  ws.on('message', msg => {
+  conn.on('data', msg => {
     msg = JSON.parse(msg)
 
     console.log(msg)
 
     router(msg.message).then(path => {
-      require(path)(resp, msg)
+      require(path)(msg, resp, db)
     })
+  })
 
+  conn.on('close', () => {
+    console.log('lost')
   })
 })
 
-console.log(`[SERVER] > Listening on ${PORT}`)
+const server = http.createServer()
+// echo.attach(server)
+server.listen(5112, '0.0.0.0')
+
+console.log(`[SERVER] > Listening on 5112`)
