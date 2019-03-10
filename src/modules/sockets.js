@@ -4,14 +4,14 @@ class res {
   }
 
   send (message, content) {
-    this.socket.send(JSON.stringify({
+    this.socket.write(JSON.stringify({
       message: `RES_${message}`,
       content: content
     }))
   }
 
   sendTo (sock, message, content) {
-    sock.send(JSON.stringify({
+    sock.write(JSON.stringify({
       message: `RES_${message}`,
       content: content
     }))

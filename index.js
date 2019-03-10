@@ -7,7 +7,7 @@ const db = require('./src/modules/redis.js')
 
 global.tempStorage = []
 
-const echo = sockjs.createServer({ prefix:'/echo' })
+const echo = sockjs.createServer()
 echo.on('connection', conn => {
   
   resp = new res(conn)
@@ -23,12 +23,12 @@ echo.on('connection', conn => {
   })
 
   conn.on('close', () => {
-    console.log('lost')
+    db.remove(conn.id)
   })
 })
 
 const server = http.createServer()
-// echo.attach(server)
+echo.installHandlers(server, { prefix:'/echo' })
 server.listen(5112, '0.0.0.0')
 
 console.log(`[SERVER] > Listening on 5112`)

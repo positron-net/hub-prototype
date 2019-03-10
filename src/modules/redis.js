@@ -1,4 +1,4 @@
-const redis = require('ioredis');
+const redis = require('ioredis')
 const client = new redis()
 
 const db = {
@@ -21,8 +21,13 @@ const db = {
     })
   },
 
-  remove (key) {
-
+  remove (id) {
+    for (i in tempStorage) {
+      if (id === tempStorage[i].value.sock.id) {
+        tempStorage.splice(i, 1)
+        break
+      }
+    }
   }
 }
 

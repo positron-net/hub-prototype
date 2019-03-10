@@ -2,7 +2,7 @@ module.exports = (msg, res, db) => {
   db.get(msg.content.uid)
   .then(data => {
     sendTo(data.sock, 'RECEIVE_FILE', {
-      host: res.get()._socket.remoteAddress.replace('::ffff:', ''),
+      host: res.get().remoteAddress.replace('::ffff:', ''),
       port: msg.content.port
     })
   })
