@@ -3,7 +3,7 @@ const sockjs = require('sockjs')
 const router = require('./src/router.js')
 
 const res = require('./src/modules/sockets.js')
-const db = require('./src/modules/redis.js')
+const db = require('./src/modules/db.js')
 
 global.tempStorage = []
 

@@ -1,6 +1,3 @@
-const redis = require('ioredis')
-const client = new redis()
-
 const db = {
   get (key) {
     return new Promise(resolve => {
@@ -30,17 +27,5 @@ const db = {
     }
   }
 }
-
-client.on('error', err => {
-  console.log(`[REDIS] > ${err}`)
-})
-
-client.on('ready', err => {
-  console.log(`[REDIS] > Connected !`)
-})
-
-client.on('reconnecting', err => {
-  console.log(`[REDIS] > Reconnecting...}`)
-})
 
 module.exports = db
