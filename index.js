@@ -7,6 +7,18 @@ const db = require('./src/modules/redis.js')
 
 global.tempStorage = []
 
+console.log(`
+
+        ____             _ __                 
+       / __ \\____  _____(_) /__________  ____ 
+      / /_/ / __ \\/ ___/ / __/ ___/ __ \\/ __ \\
+     / ____/ /_/ (__  ) / /_/ /  / /_/ / / / /
+    /_/    \\____/____/_/\\__/_/   \\____/_/ /_/ 
+    
+    Hub
+
+`)
+
 const echo = sockjs.createServer()
 echo.on('connection', conn => {
   
@@ -28,7 +40,7 @@ echo.on('connection', conn => {
 })
 
 const server = http.createServer()
-echo.installHandlers(server, { prefix:'/echo' })
+echo.installHandlers(server, { prefix:'/hub' })
 server.listen(5112, '0.0.0.0')
 
 console.log(`[SERVER] > Listening on 5112`)
